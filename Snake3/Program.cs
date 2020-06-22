@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,12 @@ namespace Snake3
     {
         int Height = 20; //wysokosc planszy
         int Width = 30; //szerokosc planszy
+
+        int[] X = new int[50];
+        int[] Y = new int[50];
+
+        int fruitX, fruitY, parts = 3;
+
         public void WriteBoard()
         {
             Console.Clear();
@@ -34,15 +41,30 @@ namespace Snake3
                 Console.Write("|");
             }
 
-            Console.WriteLine("This is my first game!");
-            Console.ReadKey();
 
         }
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             Snake snake = new Snake();
+            bool exit = false;
 
-            snake.WriteBoard();
+
+            while (!exit)
+            {
+                snake.WriteBoard();
+
+                ConsoleKeyInfo input = Console.ReadKey();
+
+                switch (input.Key)
+                {
+                    case ConsoleKey.Escape:
+                        exit = true;
+                        break;
+                        
+                }
+            }
+            
 
         }   
     }
