@@ -17,6 +17,15 @@ namespace Snake3
 
         int fruitX, fruitY, parts = 3;
 
+        Random rnd = new Random();
+
+        Snake()
+        {
+            X[0] = 5;
+            Y[0] = 5;
+            fruitX = rnd.Next(2, (Width - 2));
+            fruitY = rnd.Next(2, (Height - 2));
+        }
         public void WriteBoard()
         {
             Console.Clear();
@@ -40,9 +49,36 @@ namespace Snake3
                 Console.SetCursorPosition((Width + 2), i);
                 Console.Write("|");
             }
-
-
         }
+
+        public void WritePoint(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("#");
+        }
+
+        public void Logic()
+        {
+            if (X[0] == fruitX)
+            {
+                parts++;
+                fruitX = rnd.Next(2, (Width - 2)); //losowanie położenia owocu
+                fruitY = rnd.Next(2, (Height - 2)); //losowanie położenia owocu
+            }
+            for (int i = parts; i > 1; i--)
+            {
+                X[i - 1] = X[i - 2];
+                Y[i - 1] = Y[i - 2];
+            }
+            for(int i = 0; i <= (parts - 1); i++)
+            {
+                WritePoint(X[i], Y[i]);
+                WritePoint(fruitX, fruitY);
+            }
+            
+        }
+
+
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
@@ -53,6 +89,8 @@ namespace Snake3
             while (!exit)
             {
                 snake.WriteBoard();
+                snake.Logic();
+                
 
                 ConsoleKeyInfo input = Console.ReadKey();
 
@@ -61,7 +99,19 @@ namespace Snake3
                     case ConsoleKey.Escape:
                         exit = true;
                         break;
-                        
+                    case ConsoleKey.W:
+                        snake.Y[0]--;
+                        break;
+                    case ConsoleKey.S:
+                        snake.Y[0]++;
+                        break;
+                    case ConsoleKey.A:
+                        snake.X[0]--;
+                        break;
+                    case ConsoleKey.D:
+                        snake.X[0]++;
+                        break;
+
                 }
             }
             
