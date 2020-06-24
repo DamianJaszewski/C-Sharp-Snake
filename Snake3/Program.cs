@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Snake3
@@ -16,7 +17,10 @@ namespace Snake3
         int[] Y = new int[50];
 
         int fruitX, fruitY, parts = 3;
+        bool exit = false;
 
+        ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+        char key  = 'W';
         Random rnd = new Random();
 
         Snake()
@@ -51,6 +55,14 @@ namespace Snake3
             }
         }
 
+        public void Input()
+        {
+            if (Console.KeyAvailable) //sprawdza czy jest wciśniety przycisk
+            {
+                keyInfo = Console.ReadKey(true); //pobieranie klawisza z klawiatury
+                key = keyInfo.KeyChar; //zamienia klawisz na wartość char i przypisuje do zmiennej key
+            }
+        }
         public void WritePoint(int x, int y)
         {
             Console.SetCursorPosition(x, y);
@@ -61,14 +73,34 @@ namespace Snake3
         {
             if (X[0] == fruitX)
             {
-                parts++;
-                fruitX = rnd.Next(2, (Width - 2)); //losowanie położenia owocu
-                fruitY = rnd.Next(2, (Height - 2)); //losowanie położenia owocu
+                if(Y[0] == fruitY)
+                {
+                    parts++;
+                    fruitX = rnd.Next(2, (Width - 2)); //losowanie położenia owocu
+                    fruitY = rnd.Next(2, (Height - 2)); //losowanie położenia owocu
+                }
+                
             }
-            for (int i = parts; i > 1; i--)
+            for (int i = parts; i > 1; i--) //logika kolejnych członów węża
             {
                 X[i - 1] = X[i - 2];
                 Y[i - 1] = Y[i - 2];
+            }
+            switch (key)
+            {
+                case 'w':
+                    Y[0]--;
+                    break;
+                case 's':
+                    Y[0]++;
+                    break;
+                case 'a':
+                    X[0]--;
+                    break;
+                case 'd':
+                    X[0]++;
+                    break;
+
             }
             for(int i = 0; i <= (parts - 1); i++)
             {
@@ -83,36 +115,14 @@ namespace Snake3
         {
             Console.CursorVisible = false;
             Snake snake = new Snake();
-            bool exit = false;
+            
 
-
-            while (!exit)
+            while (!snake.exit)
             {
                 snake.WriteBoard();
+                snake.Input();
                 snake.Logic();
-                
-
-                ConsoleKeyInfo input = Console.ReadKey();
-
-                switch (input.Key)
-                {
-                    case ConsoleKey.Escape:
-                        exit = true;
-                        break;
-                    case ConsoleKey.W:
-                        snake.Y[0]--;
-                        break;
-                    case ConsoleKey.S:
-                        snake.Y[0]++;
-                        break;
-                    case ConsoleKey.A:
-                        snake.X[0]--;
-                        break;
-                    case ConsoleKey.D:
-                        snake.X[0]++;
-                        break;
-
-                }
+                Thread.Sleep(200);
             }
             
 
