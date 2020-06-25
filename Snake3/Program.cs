@@ -20,15 +20,16 @@ namespace Snake3
         bool exit = false;
 
         ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
-        char key  = 'W';
+        char keyBefore, key  = 'w';
+        
         Random rnd = new Random();
 
         Snake()
         {
-            X[0] = 5;
+            X[0] = 10;
             Y[0] = 5;
-            fruitX = rnd.Next(2, (Width - 2));
-            fruitY = rnd.Next(2, (Height - 2));
+            fruitX = rnd.Next(2, (Width - 2)); //losowanie położenia owocu
+            fruitY = rnd.Next(2, (Height - 2)); //losowanie położenia owocu
         }
         public void WriteBoard()
         {
@@ -60,13 +61,26 @@ namespace Snake3
             if (Console.KeyAvailable) //sprawdza czy jest wciśniety przycisk
             {
                 keyInfo = Console.ReadKey(true); //pobieranie klawisza z klawiatury
-                key = keyInfo.KeyChar; //zamienia klawisz na wartość char i przypisuje do zmiennej key
+                keyBefore = key;
+                key = keyInfo.KeyChar;//zamienia klawisz na wartość char i przypisuje do zmiennej key
+                s
+                if(keyBefore == 'w' && key == 's' || keyBefore == 's' && key == 'w' || keyBefore == 'a' && key == 'd' || keyBefore == 'd' && key == 'a')
+                {
+                    key = keyBefore;
+                }
+
             }
         }
-        public void WritePoint(int x, int y)
+        public void WritePoint(int x, int y) //rysuje pojedynczny człon węża
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(x, y); //ustawia kursor
             Console.Write("#");
+
+            if (X[1] <= 1 || X[0]>=(Width + 2) || Y[0]<= 1 || Y[0] >=(Height + 2)) //sprawdza czy wąż nie wychodzi poza obszar gry 
+            {
+                exit = true;
+                //Console.Write("Poza obszarem"); 
+            }
         }
 
         public void Logic()
@@ -102,11 +116,12 @@ namespace Snake3
                     break;
 
             }
-            for(int i = 0; i <= (parts - 1); i++)
+            for(int i = 0; i <= (parts - 1); i++) //rusyje węża
             {
                 WritePoint(X[i], Y[i]);
                 WritePoint(fruitX, fruitY);
             }
+            Thread.Sleep(100);
             
         }
 
@@ -122,7 +137,7 @@ namespace Snake3
                 snake.WriteBoard();
                 snake.Input();
                 snake.Logic();
-                Thread.Sleep(200);
+                
             }
             
 
