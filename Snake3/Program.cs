@@ -57,21 +57,7 @@ namespace Snake3
             }
         }
 
-        public void Input()
-        {
-            if (Console.KeyAvailable) //sprawdza czy jest wciśniety przycisk
-            {
-                keyInfo = Console.ReadKey(true); //pobieranie klawisza z klawiatury
-                keyBefore = key;
-                key = keyInfo.KeyChar;//zamienia klawisz na wartość char i przypisuje do zmiennej key
-                
-                if(keyBefore == 'w' && key == 's' || keyBefore == 's' && key == 'w' || keyBefore == 'a' && key == 'd' || keyBefore == 'd' && key == 'a')
-                {
-                    key = keyBefore;
-                }
-
-            }
-        }
+       
         public void WritePoint(int x, int y) //rysuje pojedynczny człon węża
         {
             Console.SetCursorPosition(x, y); //ustawia kursor
@@ -97,7 +83,21 @@ namespace Snake3
                 Console.Write("\0");
             }
         }
+        public void Input()
+        {
+            if (Console.KeyAvailable) //sprawdza czy jest wciśniety przycisk
+            {
+                keyInfo = Console.ReadKey(true); //pobieranie klawisza z klawiatury
+                keyBefore = key;//dodaje nową zmienną aby uniemożliwić ruch w przeciwnym kierunku
+                key = keyInfo.KeyChar;//zamienia klawisz na wartość char i przypisuje do zmiennej key
 
+                if (keyBefore == 'w' && key == 's' || keyBefore == 's' && key == 'w' || keyBefore == 'a' && key == 'd' || keyBefore == 'd' && key == 'a')
+                {
+                    key = keyBefore;
+                }
+
+            }
+        }
         void Shift()
         {
             for(int i = parts + 1; i > 1; i--)
@@ -119,6 +119,7 @@ namespace Snake3
                 }
                 
             }
+            /*
             for (int i = parts; i > 1; i--) //logika kolejnych członów węża
             {
 
@@ -130,18 +131,23 @@ namespace Snake3
                 else exit = true;
              
             }
+            */
             switch (key)
             {
                 case 'w':
+                    Shift();
                     Y[0]--;
                     break;
                 case 's':
+                    Shift();
                     Y[0]++;
                     break;
                 case 'a':
+                    Shift();
                     X[0]--;
                     break;
                 case 'd':
+                    Shift();
                     X[0]++;
                     break;
 
@@ -152,7 +158,7 @@ namespace Snake3
                 Console.WriteLine(Y[i]);
                 if (true)
                 {
-                    WritePoint(X[i], Y[i]);dd
+                    WritePoint(X[i], Y[i]);
                 }
                 else exit = true;
 
