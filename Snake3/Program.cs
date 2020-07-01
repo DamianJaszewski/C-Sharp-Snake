@@ -17,7 +17,7 @@ namespace Snake3
         int[] X = new int[50];
         int[] Y = new int[50];
 
-        int fruitX, fruitY, headX, headY, parts = 3;
+        int fruitX, fruitY, parts = 3;
         bool exit = false;
 
         ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
@@ -75,6 +75,7 @@ namespace Snake3
         {
             for(int i=0; i<= (parts - 1); i++)
             {
+            
                 WritePoint(X[i], Y[i]);
             }
             if (X[parts] != 0)
@@ -154,14 +155,8 @@ namespace Snake3
             }
             for(int i = 0; i <= (parts - 1); i++) //rusyje węża
             {
-                Console.WriteLine(X[i]);
-                Console.WriteLine(Y[i]);
-                if (true)
-                {
-                    WritePoint(X[i], Y[i]);
-                }
-                else exit = true;
-
+             
+                WritePoint(X[i], Y[i]);
                 WritePoint(fruitX, fruitY);
             }
             
