@@ -40,8 +40,16 @@ namespace Snake3
             Console.SetCursorPosition(x, y); //ustawia kursor
             Console.Write("#");
 
+            for (int i = parts; i > 0; i--)
+            {
+                if (X[i] == X[0] && Y[i]==Y[0])
+                {
+                    exit = true;
+                }
+            }
 
-            if (X[1] <= 1 || X[0] >= (Width + 2) || Y[0] <= 1 || Y[0] >= (Height + 2)) //sprawdza czy wąż nie wychodzi poza obszar gry 
+
+            if (X[0] <= 1 || X[0] >= (Width + 2) || Y[0] <= 1 || Y[0] >= (Height + 2)) //sprawdza czy wąż nie wychodzi poza obszar gry 
             {
                 exit = true;
                 //Console.Write("Poza obszarem"); 
