@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace Snake3
         int[] X = new int[50];
         int[] Y = new int[50];
 
-        int fruitX, fruitY, parts = 3;
+        int fruitX, fruitY, score = 0, parts = 3;
         public bool exit = false;
 
         ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
@@ -83,6 +85,13 @@ namespace Snake3
             }
         }
 
+        public void Result()
+        {
+            Console.SetCursorPosition(Width/2 - 5, Height + 3);
+            Console.WriteLine("Score: " + score);
+        }
+
+
         public void Logic()
         {
             if (X[0] == fruitX)
@@ -90,6 +99,7 @@ namespace Snake3
                 if (Y[0] == fruitY)
                 {
                     parts++;
+                    score += 100;
                     fruitX = rnd.Next(2, (Width - 2)); //losowanie położenia owocu
                     fruitY = rnd.Next(2, (Height - 2)); //losowanie położenia owocu
                 }
@@ -135,8 +145,12 @@ namespace Snake3
                 WritePoint(fruitX, fruitY);
             }
 
-            Thread.Sleep(100);
+         
+            Thread.Sleep(80);
+           
 
         }
+
+      
     }
 }
